@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.luizgtvsilva.simple.domain.Categoria;
 import com.luizgtvsilva.simple.domain.Cidade;
+import com.luizgtvsilva.simple.domain.Cliente;
+import com.luizgtvsilva.simple.domain.Endereco;
 import com.luizgtvsilva.simple.domain.Estado;
 import com.luizgtvsilva.simple.domain.Produto;
+import com.luizgtvsilva.simple.domain.enums.TipoCliente;
 import com.luizgtvsilva.simple.repositories.CategoriaRepository;
 import com.luizgtvsilva.simple.repositories.CidadeRepository;
+import com.luizgtvsilva.simple.repositories.ClienteRepository;
+import com.luizgtvsilva.simple.repositories.EnderecoRepository;
 import com.luizgtvsilva.simple.repositories.EstadoRepository;
 import com.luizgtvsilva.simple.repositories.ProdutoRepository;
 
@@ -31,6 +36,12 @@ public class SimpleApplication implements CommandLineRunner {
 	@Autowired
 	private CidadeRepository cidadeRepository;
 	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepository;
+	
 
 	public static void main(String[] args) {
 		SpringApplication.run(SimpleApplication.class, args);
@@ -38,7 +49,8 @@ public class SimpleApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-
+		
+		//Instância de Categoria e Produto
 		Categoria cat1 = new Categoria(null, "Informática");
 		Categoria cat2 = new Categoria(null, "Escritório");
 		
@@ -57,7 +69,7 @@ public class SimpleApplication implements CommandLineRunner {
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
 		produtoRepository.saveAll(Arrays.asList(p1,p2,p3));
 		
-		
+		//Instância de Estado e Cidade
 		Estado est1 = new Estado(null, "Minas Gerais");
 		Estado est2 = new Estado(null, "São Paulo");
 		
@@ -71,6 +83,17 @@ public class SimpleApplication implements CommandLineRunner {
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 		
+		//Instância de Cliente e Endereço
+		Cliente cli1 = new Cliente(null, "Aline Martini", "alinemartini@hotmail.com", "12642100803", TipoCliente.PESSOAFISICA);
+				cli1.getTelefones().addAll(Arrays.asList("1188888888", "1188888889"));
+		
+		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "03434050", cli1, c1);
+		Endereco e2 = new Endereco(null, "Avenida Mattos", "185", "Sala 800", "Centro", "03435070", cli1, c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 		
 	}
 
