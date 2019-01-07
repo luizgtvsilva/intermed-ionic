@@ -14,6 +14,8 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository repo;
 	
+	
+	//O Objetivo deste serviço é retornar o ID de Categoria
 	public Categoria find(Integer id) {
 		Optional<Categoria> obj = repo.findById(id);
 		return obj.orElse(null);
