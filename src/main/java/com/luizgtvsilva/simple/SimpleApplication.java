@@ -13,6 +13,7 @@ import com.luizgtvsilva.simple.domain.Cidade;
 import com.luizgtvsilva.simple.domain.Cliente;
 import com.luizgtvsilva.simple.domain.Endereco;
 import com.luizgtvsilva.simple.domain.Estado;
+import com.luizgtvsilva.simple.domain.ItemPedido;
 import com.luizgtvsilva.simple.domain.Pagamento;
 import com.luizgtvsilva.simple.domain.PagamentoComBoleto;
 import com.luizgtvsilva.simple.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.luizgtvsilva.simple.repositories.CidadeRepository;
 import com.luizgtvsilva.simple.repositories.ClienteRepository;
 import com.luizgtvsilva.simple.repositories.EnderecoRepository;
 import com.luizgtvsilva.simple.repositories.EstadoRepository;
+import com.luizgtvsilva.simple.repositories.ItemPedidoRepository;
 import com.luizgtvsilva.simple.repositories.PagamentoRepository;
 import com.luizgtvsilva.simple.repositories.PedidoRepository;
 import com.luizgtvsilva.simple.repositories.ProdutoRepository;
@@ -55,6 +57,9 @@ public class SimpleApplication implements CommandLineRunner {
 	
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 
 	public static void main(String[] args) {
@@ -110,7 +115,6 @@ public class SimpleApplication implements CommandLineRunner {
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 		
 		//Instância de Pagamento e Pedido
-		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		
 		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2018 10:32"), cli1, e1);
@@ -126,6 +130,23 @@ public class SimpleApplication implements CommandLineRunner {
 		
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		
+		//Instância de ItemPedido
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
+		
+
+		
 		
 		
 	}
