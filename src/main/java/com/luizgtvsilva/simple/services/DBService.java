@@ -20,6 +20,7 @@ import com.luizgtvsilva.simple.domain.PagamentoComCartao;
 import com.luizgtvsilva.simple.domain.Pedido;
 import com.luizgtvsilva.simple.domain.Produto;
 import com.luizgtvsilva.simple.domain.enums.EstadoPagamento;
+import com.luizgtvsilva.simple.domain.enums.Perfil;
 import com.luizgtvsilva.simple.domain.enums.TipoCliente;
 import com.luizgtvsilva.simple.repositories.CategoriaRepository;
 import com.luizgtvsilva.simple.repositories.CidadeRepository;
@@ -134,14 +135,22 @@ public class DBService {
 			//Instância de Cliente e Endereço
 			Cliente cli1 = new Cliente(null, "Aline Martini", "luizgtvsilva.simple@gmail.com", "12642100803", TipoCliente.PESSOAFISICA, bCryptPasswordEncoder.encode("123"));
 					cli1.getTelefones().addAll(Arrays.asList("1188888888", "1188888889"));
+					
+					Cliente cli2 = new Cliente(null, "Aline Mastini da Silva", "xacarogtv@gmail.com", "73946670067", TipoCliente.PESSOAFISICA, bCryptPasswordEncoder.encode("123"));
+							cli1.getTelefones().addAll(Arrays.asList("1188822888", "1188228889"));
+							cli2.addPerfil(Perfil.ADMIN);
 			
 			Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "03434050", cli1, c1);
 			Endereco e2 = new Endereco(null, "Avenida Mattos", "185", "Sala 800", "Centro", "03435070", cli1, c2);
+			Endereco e3 = new Endereco(null, "Avenida Paraiso", "183", "Apto 08", "ZL", "03435070", cli2, c1);
+
 			
 			cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+			cli2.getEnderecos().addAll(Arrays.asList(e3));
+
 			
-			clienteRepository.saveAll(Arrays.asList(cli1));
-			enderecoRepository.saveAll(Arrays.asList(e1, e2));
+			clienteRepository.saveAll(Arrays.asList(cli1, cli2));
+			enderecoRepository.saveAll(Arrays.asList(e1, e2, e3));
 			
 			//Instância de Pagamento e Pedido
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
